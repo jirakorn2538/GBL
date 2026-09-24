@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "functions": {
+    "*.php": {
+      "runtime": "vercel-php@0.7.2"
+    },
+    "teacher/*.php": {
+      "runtime": "vercel-php@0.7.2"
+    },
+    "teacher/**/*.php": {
+      "runtime": "vercel-php@0.7.2"
+    }
+  },
+  "routes": [
+    {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "/uploads/(.*)",
+      "dest": "/uploads/$1"
+    },
+    {
+      "src": "/teacher/?$",
+      "dest": "/teacher/login.php"
+    },
+    {
+      "src": "/teacher/(.*)",
+      "dest": "/teacher/$1"
+    },
+    {
+      "src": "^/$",
+      "dest": "/index.php"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
+}

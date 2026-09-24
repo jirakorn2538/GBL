@@ -1,0 +1,14 @@
+# Environment & Secrets
+.env
+.env.local
+*.log
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local test scripts (if any)
+test_*.ps1
+scratch_*.php
