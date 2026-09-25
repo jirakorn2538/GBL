@@ -1,14 +1,8 @@
 {
   "version": 2,
   "functions": {
-    "*.php": {
-      "runtime": "vercel-php@0.7.2"
-    },
-    "teacher/*.php": {
-      "runtime": "vercel-php@0.7.2"
-    },
-    "teacher/**/*.php": {
-      "runtime": "vercel-php@0.7.2"
+    "api/index.php": {
+      "runtime": "vercel-php@0.9.0"
     }
   },
   "routes": [
@@ -17,24 +11,28 @@
       "dest": "/assets/$1"
     },
     {
+      "src": "/teacher/assets/(.*)",
+      "dest": "/teacher/assets/$1"
+    },
+    {
       "src": "/uploads/(.*)",
       "dest": "/uploads/$1"
     },
     {
-      "src": "/teacher/?$",
-      "dest": "/teacher/login.php"
+      "src": "/money-life/assets/(.*)",
+      "dest": "/assets/$1"
     },
     {
-      "src": "/teacher/(.*)",
-      "dest": "/teacher/$1"
+      "src": "/money-life/teacher/assets/(.*)",
+      "dest": "/teacher/assets/$1"
     },
     {
-      "src": "^/$",
-      "dest": "/index.php"
+      "src": "/money-life/(.*)",
+      "dest": "/api/index.php"
     },
     {
       "src": "/(.*)",
-      "dest": "/$1"
+      "dest": "/api/index.php"
     }
   ]
 }
