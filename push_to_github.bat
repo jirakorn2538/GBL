@@ -5,22 +5,45 @@ echo   Money Life - Auto Push to GitHub (jirakorn2538/GBL)
 echo ========================================================
 echo.
 cd /d "%~dp0"
-"C:\Program Files\Git\cmd\git.exe" add .
-"C:\Program Files\Git\cmd\git.exe" commit -m "Deploy Money Life web app"
+
+set "GIT=C:\Program Files\Git\cmd\git.exe"
+set "GH=C:\Program Files\GitHub CLI\gh.exe"
+
+"%GIT%" add .
+"%GIT%" commit -m "Deploy Money Life web app" >nul 2>&1
+
+echo [1/2] กำลังทดสอบส่งโค้ดขึ้น GitHub...
+"%GIT%" push -u origin main
+if %errorlevel% equ 0 goto success
+
 echo.
-echo กำลังส่งโค้ดขึ้น GitHub...
-echo (หากมีหน้าต่างเด้งขึ้นมา ให้กด "Sign in with your browser" เพื่อยืนยันสิทธิ์)
+echo [แจ้งเตือน] ยังไม่ได้เข้าสู่ระบบ GitHub หรือระบบขอการยืนยันสิทธิ์
+echo กำลังเปิดหน้าต่างเบราว์เซอร์เพื่อเข้าสู่ระบบ GitHub (กดปุ่มยืนยันในเว็บเบราว์เซอร์)...
 echo.
-"C:\Program Files\Git\cmd\git.exe" push -u origin main
-echo.
-if %errorlevel% equ 0 (
-    echo ========================================================
-    echo   [สำเร็จ!] โค้ดทั้งหมดขึ้น GitHub jirakorn2538/GBL แล้ว
-    echo ========================================================
-) else (
-    echo ========================================================
-    echo   หากยังไม่สำเร็จ กรุณากด Sign in GitHub ในหน้าต่าง Browser ครับ
-    echo ========================================================
+
+if exist "%GH%" (
+    "%GH%" auth login --hostname github.com --git-protocol https --web --scopes repo
+    "%GH%" auth setup-git
+    echo.
+    echo กำลังส่งโค้ดขึ้น GitHub อีกครั้ง...
+    "%GIT%" push -u origin main
+    if %errorlevel% equ 0 goto success
 )
+
+:fail
+echo.
+echo ========================================================
+echo   [ไม่สำเร็จ] กรุณาตรวจสอบการล็อกอิน GitHub อีกครั้ง
+echo ========================================================
+goto end
+
+:success
+echo.
+echo ========================================================
+echo   [สำเร็จ 100%%] โค้ดทั้งหมดขึ้น GitHub jirakorn2538/GBL แล้ว!
+echo ========================================================
+
+:end
 echo.
 pause
+
